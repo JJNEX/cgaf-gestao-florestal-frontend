@@ -1,0 +1,70 @@
+<div class="page animate-fade-in-up">
+  <app-page-header title="Ocorrências" subtitle="Registros de ocorrências em campo">
+    <button page-actions class="btn-primary btn-sm" routerLink="/colaborador/ocorrencias/nova">
+      <i class="material-icons" style="font-size: 16px;">add</i>
+      Registrar
+    </button>
+  </app-page-header>
+
+  <div class="table-card">
+    @if (service.isLoading()) {
+      <div class="loading-wrapper">
+        <app-spinner [size]="40" message="Carregando ocorrências..." />
+      </div>
+    } @else if (service.error()) {
+      <app-error-card [message]="service.error()!" (retry)="load()" />
+    } @else if (service.ocorrencias().length === 0) {
+      <div class="empty-state">
+        <i class="nav-icon material-icons empty-icon" style="color: #d1d5db;">search_off</i>
+        <p class="empty-title">Nenhuma ocorrência encontrada</p>
+        <p class="empty-desc">As ocorrências registradas aparecerão aqui.</p>
+      </div>
+    } @else {
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Protocolo</th>
+              <th>Tipo</th>
+              <th>Urgência</th>
+              <th>Área</th>
+              <th>Data</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (o of service.ocorrencias(); track o.id) {
+              <tr>
+                <td>{{ o.protocolo }}</td>
+                <td>{{ o.tipo }}</td>
+                <td>{{ o.urgencia }}</td>
+                <td>{{ o.nomeAreaFlorestal }}</td>
+                <td>{{ o.dataOcorrencia | date:'dd/MM/yyyy HH:mm' }}</td>
+                <td>
+                  <button class="action-btn" title="Detalhes" aria-label="Detalhes" [routerLink]="['/colaborador/ocorrencias', o.protocolo]">
+                    <i class="nav-icon material-icons">visibility</i>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination">
+        <button class="btn-secondary btn-sm" (click)="prevPage()" [disabled]="service.page()?.first">
+          <i class="material-icons" style="font-size: 16px;">chevron_left</i>
+          Anterior
+        </button>
+        <span class="page-info">
+          Página {{ (service.page()?.number ?? 0) + 1 }} de {{ service.page()?.totalPages ?? 1 }}
+        </span>
+        <button class="btn-secondary btn-sm" (click)="nextPage()" [disabled]="service.page()?.last">
+          Próxima
+          <i class="material-icons" style="font-size: 16px;">chevron_right</i>
+        </button>
+      </div>
+    }
+  </div>
+</div>
+

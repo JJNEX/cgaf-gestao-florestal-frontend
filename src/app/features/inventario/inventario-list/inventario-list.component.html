@@ -1,0 +1,74 @@
+<div class="page animate-fade-in-up">
+  <app-page-header title="Inventário" subtitle="Vistorias e registros de parcelas">
+    <button page-actions class="btn-primary btn-sm" routerLink="/colaborador/inventario/novo">
+      <i class="material-icons" style="font-size: 16px;">add</i>
+      Registrar
+    </button>
+  </app-page-header>
+
+  <div class="table-card">
+    @if (service.isLoading()) {
+      <div class="loading-wrapper">
+        <app-spinner [size]="40" message="Carregando inventários..." />
+      </div>
+    } @else if (service.error()) {
+      <app-error-card [message]="service.error()!" (retry)="load()" />
+    } @else if (service.inventarios().length === 0) {
+      <div class="empty-state">
+        <i class="nav-icon material-icons empty-icon" style="color: #d1d5db;">search_off</i>
+        <p class="empty-title">Nenhum registro encontrado</p>
+        <p class="empty-desc">Os registros de inventário aparecerão aqui.</p>
+      </div>
+    } @else {
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Parcela</th>
+              <th>Área</th>
+              <th>Espécie</th>
+              <th>Indivíduos</th>
+              <th>Estado</th>
+              <th>Vistoria</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (i of service.inventarios(); track i.id) {
+              <tr>
+                <td>{{ i.numeroParcela }}</td>
+                <td>{{ i.nomeAreaFlorestal }}</td>
+                <td>{{ i.nomeEspecie }}</td>
+                <td>{{ i.quantidadeIndividuos }}</td>
+                <td>{{ i.estadoGeral }}</td>
+                <td>{{ i.dataVistoria | date: 'dd/MM/yyyy' }}</td>
+                <td>
+                  <div class="actions-container">
+                    <button class="action-btn" title="Detalhes" aria-label="Detalhes" [routerLink]="['/colaborador/inventario', i.id]">
+                      <i class="nav-icon material-icons">visibility</i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination">
+        <button class="btn-secondary btn-sm" (click)="prevPage()" [disabled]="service.page()?.first">
+          <i class="material-icons" style="font-size: 16px;">chevron_left</i>
+          Anterior
+        </button>
+        <span class="page-info">
+          Página {{ (service.page()?.number ?? 0) + 1 }} de {{ service.page()?.totalPages ?? 1 }}
+        </span>
+        <button class="btn-secondary btn-sm" (click)="nextPage()" [disabled]="service.page()?.last">
+          Próxima
+          <i class="material-icons" style="font-size: 16px;">chevron_right</i>
+        </button>
+      </div>
+    }
+  </div>
+</div>
+

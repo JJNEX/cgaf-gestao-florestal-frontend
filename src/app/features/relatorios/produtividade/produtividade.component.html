@@ -1,0 +1,64 @@
+<div class="page animate-fade-in-up">
+  <app-page-header
+    title="Produtividade do Colaborador"
+    subtitle="Consulta por colaborador (mês atual)"
+  >
+    <button page-actions class="btn-secondary btn-sm" (click)="goBack()">
+      <i class="material-icons" style="font-size: 16px;">arrow_back</i>
+      Voltar
+    </button>
+  </app-page-header>
+
+  <div class="form-card">
+    <form [formGroup]="form" class="edit-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label" for="colaborador">Colaborador <span class="required">*</span></label>
+          <select id="colaborador" class="input-field" formControlName="colaboradorId">
+            <option value="" disabled selected>Selecione um colaborador</option>
+            @for (col of colaboradoresOptions(); track col.id) {
+              <option [value]="col.id">{{ col.nome }}</option>
+            }
+          </select>
+        </div>
+        <div class="form-group"></div>
+      </div>
+      <div class="actions-row">
+        <button class="btn-primary btn-sm" type="button" (click)="buscar()" [disabled]="form.invalid || isLoading()">
+          <i class="material-icons" style="font-size: 16px;">search</i>
+          Buscar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  @if (isLoading()) {
+    <div class="loading-wrapper">
+      <app-spinner [size]="40" message="Carregando produtividade..." />
+    </div>
+  } @else if (error()) {
+    <app-error-card [message]="error()!" (retry)="buscar()" />
+  } @else if (data()) {
+    <div class="form-card">
+      <div class="details-grid">
+        <div class="detail-item">
+          <span class="detail-label">Colaborador</span>
+          <span class="detail-value">{{ data()!.nomeColaborador }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Mudas Plantadas</span>
+          <span class="detail-value">{{ data()!.mudasPlantadasNoMes }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Vistorias</span>
+          <span class="detail-value">{{ data()!.vistoriasRealizadasNoMes }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Ocorrências</span>
+          <span class="detail-value">{{ data()!.ocorrenciasRelatadasNoMes }}</span>
+        </div>
+      </div>
+    </div>
+  }
+</div>
+

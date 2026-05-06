@@ -1,0 +1,70 @@
+<div class="page animate-fade-in-up">
+  <app-page-header title="Detalhes da Espécie" subtitle="Visualize informações da espécie">
+    <button page-actions class="btn-secondary btn-sm" (click)="goBack()">
+      <i class="material-icons" style="font-size: 16px;">arrow_back</i>
+      Voltar
+    </button>
+    @if (especie()) {
+      <ng-container page-actions>
+        <button class="btn-primary btn-sm" [routerLink]="['/admin/especies', especie()!.id, 'editar']">
+          <i class="material-icons" style="font-size: 16px;">edit</i>
+          Editar
+        </button>
+        <button class="btn-secondary btn-sm" (click)="remover()">
+          <i class="material-icons" style="font-size: 16px;">delete</i>
+          Excluir
+        </button>
+      </ng-container>
+    }
+  </app-page-header>
+
+  @if (isLoading()) {
+    <div class="loading-wrapper">
+      <app-spinner [size]="40" message="Carregando detalhes..." />
+    </div>
+  } @else if (error()) {
+    <app-error-card [message]="error()!" (retry)="load()" />
+  } @else if (especie()) {
+    <div class="form-card">
+      <div class="details-grid">
+        <div class="detail-item">
+          <span class="detail-label">Nome Científico</span>
+          <span class="detail-value">{{ especie()!.nomeCientifico }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Nome Popular</span>
+          <span class="detail-value">{{ especie()!.nomePopular }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Família</span>
+          <span class="detail-value">{{ especie()!.familia }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Porte</span>
+          <span class="detail-value">{{ especie()!.porte }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Conservação</span>
+          <span class="detail-value">{{ especie()!.conservacao }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Ciclo (anos)</span>
+          <span class="detail-value">{{ especie()!.cicloVidaAnos }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Nativa</span>
+          <span class="detail-value">{{ especie()!.nativa ? 'Sim' : 'Não' }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Ativo</span>
+          <span class="detail-value">{{ especie()!.ativo ? 'Sim' : 'Não' }}</span>
+        </div>
+      </div>
+      <div class="detail-desc">
+        <span class="detail-label">Exigências</span>
+        <span class="detail-value">{{ especie()!.exigenciasClimaticasSolo }}</span>
+      </div>
+    </div>
+  }
+</div>
+

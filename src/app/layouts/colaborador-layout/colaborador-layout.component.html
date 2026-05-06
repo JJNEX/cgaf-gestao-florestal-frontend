@@ -1,0 +1,18 @@
+<div class="colaborador-layout">
+  <app-sidebar
+    #sidebar
+    [homeRoute]="'/colaborador/dashboard'"
+    [brandText]="'CGAF'"
+    [footerText]="'Painel do Colaborador'"
+    [navItems]="navItems"
+    (sidebarToggled)="onSidebarToggle($event)"
+  />
+
+  <div class="colaborador-main" [class.main-collapsed]="sidebarCollapsed()">
+    <app-topbar (menuToggle)="sidebar.openMobile()" />
+    <main class="colaborador-content animate-fade-in">
+      <router-outlet />
+    </main>
+  </div>
+</div>
+

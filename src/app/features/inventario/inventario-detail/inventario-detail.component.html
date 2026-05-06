@@ -1,0 +1,58 @@
+<div class="page animate-fade-in-up">
+  <app-page-header title="Detalhes do Inventário" subtitle="Visualize os dados do inventário">
+    <button page-actions class="btn-secondary btn-sm" (click)="goBack()">
+      <i class="material-icons" style="font-size: 16px;">arrow_back</i>
+      Voltar
+    </button>
+  </app-page-header>
+
+  @if (isLoading()) {
+    <div class="loading-wrapper">
+      <app-spinner [size]="40" message="Carregando inventário..." />
+    </div>
+  } @else if (error()) {
+    <app-error-card [message]="error()!" (retry)="load()" />
+  } @else if (inventario()) {
+    <div class="form-card">
+      <div class="details-grid">
+        <div class="detail-item">
+          <span class="detail-label">Número da Parcela</span>
+          <span class="detail-value">{{ inventario()!.numeroParcela }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Área Florestal</span>
+          <span class="detail-value">{{ inventario()!.nomeAreaFlorestal }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Espécie</span>
+          <span class="detail-value">{{ inventario()!.nomeEspecie }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Quantidade de Indivíduos</span>
+          <span class="detail-value">{{ inventario()!.quantidadeIndividuos }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">DAP Médio</span>
+          <span class="detail-value">{{ inventario()!.dapMedio }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Altura Média</span>
+          <span class="detail-value">{{ inventario()!.alturaMedia }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Presença de Pragas/Doenças</span>
+          <span class="detail-value">{{ inventario()!.presencaPragasDoencas ? 'Sim' : 'Não' }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Estado Geral</span>
+          <span class="detail-value">{{ inventario()!.estadoGeral }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Data da Vistoria</span>
+          <span class="detail-value">{{ inventario()!.dataVistoria | date: 'dd/MM/yyyy' }}</span>
+        </div>
+      </div>
+    </div>
+  }
+</div>
+

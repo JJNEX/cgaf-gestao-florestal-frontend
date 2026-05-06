@@ -1,0 +1,85 @@
+<div class="page animate-fade-in-up">
+  <app-page-header title="Recursos" subtitle="Equipamentos, insumos e ferramentas">
+    <button page-actions class="btn-primary btn-sm" routerLink="/admin/recursos/novo">
+      <i class="material-icons" style="font-size: 16px;">add</i>
+      Cadastrar
+    </button>
+  </app-page-header>
+
+  <div class="table-card">
+    <div class="table-toolbar">
+      <div class="table-count">
+        @if (service.page()) {
+          {{ service.page()!.totalElements }} registros
+        }
+      </div>
+    </div>
+
+    @if (service.isLoading()) {
+      <div class="loading-wrapper">
+        <app-spinner [size]="40" message="Carregando recursos..." />
+      </div>
+    } @else if (service.error()) {
+      <app-error-card [message]="service.error()!" (retry)="load()" />
+    } @else if (service.recursos().length === 0) {
+      <div class="empty-state">
+        <i class="nav-icon material-icons empty-icon" style="color: #d1d5db;">search_off</i>
+        <p class="empty-title">Nenhum recurso encontrado</p>
+        <p class="empty-desc">Os recursos cadastrados aparecerão aqui.</p>
+      </div>
+    } @else {
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Descrição</th>
+              <th>Categoria</th>
+              <th>Estoque</th>
+              <th>Mínimo</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (r of service.recursos(); track r.id) {
+              <tr>
+                <td>{{ r.codigoPatrimonial }}</td>
+                <td>{{ r.descricao }}</td>
+                <td>{{ r.categoria }}</td>
+                <td>{{ r.quantidadeEstoque }}</td>
+                <td>{{ r.estoqueMinimo }}</td>
+                <td>{{ r.ativo ? 'Ativo' : 'Inativo' }}</td>
+                <td>
+                  <div class="actions-container">
+                    <button class="action-btn" title="Detalhes" aria-label="Detalhes" [routerLink]="['/admin/recursos', r.id]">
+                      <i class="nav-icon material-icons">visibility</i>
+                    </button>
+                    <button class="action-btn" title="Editar" aria-label="Editar" [routerLink]="['/admin/recursos', r.id, 'editar']">
+                      <i class="nav-icon material-icons">edit</i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination">
+        <button class="btn-secondary btn-sm" (click)="prevPage()" [disabled]="service.page()?.first">
+          <i class="material-icons" style="font-size: 16px;">chevron_left</i>
+          Anterior
+        </button>
+        <span class="page-info">
+          Página {{ (service.page()?.number ?? 0) + 1 }} de {{ service.page()?.totalPages ?? 1 }}
+        </span>
+        <button class="btn-secondary btn-sm" (click)="nextPage()" [disabled]="service.page()?.last">
+          Próxima
+          <i class="material-icons" style="font-size: 16px;">chevron_right</i>
+        </button>
+      </div>
+    }
+  </div>
+</div>
+

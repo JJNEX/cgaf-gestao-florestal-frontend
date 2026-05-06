@@ -1,0 +1,31 @@
+<div class="page animate-fade-in-up">
+  <app-page-header title="Alertas Críticos" subtitle="Resumo de alertas críticos do sistema">
+    <button page-actions class="btn-secondary btn-sm" (click)="goBack()">
+      <i class="material-icons" style="font-size: 16px;">arrow_back</i>
+      Voltar
+    </button>
+    <button page-actions class="btn-secondary btn-sm" (click)="load()" [disabled]="isLoading()">
+      <i class="material-icons" style="font-size: 16px;">refresh</i>
+      Atualizar
+    </button>
+  </app-page-header>
+
+  @if (isLoading()) {
+    <div class="loading-wrapper">
+      <app-spinner [size]="40" message="Carregando alertas críticos..." />
+    </div>
+  } @else if (error()) {
+    <app-error-card [message]="error()!" (retry)="load()" />
+  } @else {
+    <div class="form-card critical-card">
+      <div class="critical-icon">
+        <i class="material-icons">priority_high</i>
+      </div>
+      <div class="critical-body">
+        <div class="critical-label">Total de alertas críticos</div>
+        <div class="critical-value">{{ total() ?? 0 }}</div>
+      </div>
+    </div>
+  }
+</div>
+

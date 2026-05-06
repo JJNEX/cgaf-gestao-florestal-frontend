@@ -1,0 +1,90 @@
+<div class="page animate-fade-in-up">
+  <app-page-header title="Novo Inventário" subtitle="Registre uma vistoria de parcela">
+    <button page-actions class="btn-secondary btn-sm" (click)="goBack()">
+      <i class="material-icons" style="font-size: 16px;">arrow_back</i>
+      Voltar
+    </button>
+    <button page-actions class="btn-primary btn-sm" (click)="submit()" [disabled]="form.invalid || isSubmitting()">
+      <i class="material-icons" style="font-size: 16px;">save</i>
+      Salvar
+    </button>
+  </app-page-header>
+
+  <div class="form-card">
+    <form [formGroup]="form" (ngSubmit)="submit()" class="edit-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label" for="numeroParcela">Número da Parcela <span class="required">*</span></label>
+          <input id="numeroParcela" type="text" class="input-field" formControlName="numeroParcela" />
+        </div>
+        <div class="form-group">
+          <label class="label" for="dataVistoria">Data da Vistoria <span class="required">*</span></label>
+          <input id="dataVistoria" type="date" class="input-field" formControlName="dataVistoria" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label" for="areaFlorestalId">Área Florestal <span class="required">*</span></label>
+          <select id="areaFlorestalId" class="input-field select-field" formControlName="areaFlorestalId">
+            <option value="" disabled>Selecione</option>
+            @if(isLoadingAreas()) {
+              <option disabled>Carregando áreas florestais...</option>
+            }
+            @for (area of areaFlorestalOptions(); track area) {
+              <option [value]="area.id">{{ area.nome }}</option>
+            }
+          </select>
+        </div>
+  
+        <div class="form-group">
+          <label class="label" for="especieId">Espécie <span class="required">*</span></label>
+          <select id="especieId" class="input-field select-field" formControlName="especieId">
+            <option value="" disabled>Selecione</option>
+            @if(isLoadingEspecies()) {
+              <option disabled>Carregando espécies...</option>
+            }
+            @for (especie of especieOptions(); track especie) {
+              <option [value]="especie.id">{{ especie.nome }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label" for="quantidadeIndividuos">Quantidade de Indivíduos <span class="required">*</span></label>
+          <input id="quantidadeIndividuos" type="number" class="input-field" formControlName="quantidadeIndividuos" />
+        </div>
+        <div class="form-group">
+          <label class="label" for="estadoGeral">Estado Geral <span class="required">*</span></label>
+          <select id="estadoGeral" class="input-field select-field" formControlName="estadoGeral">
+            <option value="" disabled>Selecione</option>
+            @for (e of estadoOptions; track e) {
+              <option [value]="e">{{ e }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label" for="dapMedio">DAP Médio <span class="required">*</span></label>
+          <input id="dapMedio" type="number" class="input-field" formControlName="dapMedio" />
+        </div>
+        <div class="form-group">
+          <label class="label" for="alturaMedia">Altura Média <span class="required">*</span></label>
+          <input id="alturaMedia" type="number" class="input-field" formControlName="alturaMedia" />
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <label class="checkbox-label">
+          <input type="checkbox" formControlName="presencaPragasDoencas" />
+          Presença de Pragas/Doenças
+        </label>
+      </div>
+    </form>
+  </div>
+</div>
+

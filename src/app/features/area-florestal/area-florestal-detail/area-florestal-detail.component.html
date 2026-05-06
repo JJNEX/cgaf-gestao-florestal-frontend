@@ -1,0 +1,129 @@
+<div class="page animate-fade-in-up">
+  <app-page-header title="Detalhes da Área" subtitle="Visualize dados e alocações">
+    <button page-actions class="btn-secondary btn-sm" (click)="goBack()">
+      <i class="material-icons" style="font-size: 16px;">arrow_back</i>
+      Voltar
+    </button>
+    @if (area()) {
+      <button page-actions class="btn-primary btn-sm" [routerLink]="['/admin/area-florestal', area()!.id, 'editar']">
+        <i class="material-icons" style="font-size: 16px;">edit</i>
+        Editar
+      </button>
+    }
+  </app-page-header>
+
+  @if (isLoading()) {
+    <div class="loading-wrapper">
+      <app-spinner [size]="40" message="Carregando detalhes..." />
+    </div>
+  } @else if (error()) {
+    <app-error-card [message]="error()!" (retry)="load()" />
+  } @else if (area()) {
+    <div class="form-card">
+      <div class="details-grid">
+        <div class="detail-item">
+          <span class="detail-label">Nome</span>
+          <span class="detail-value">{{ area()!.nome }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Status</span>
+          <span class="detail-value">{{ area()!.status }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Município/UF</span>
+          <span class="detail-value">{{ area()!.municipio }} / {{ area()!.estado }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Hectares</span>
+          <span class="detail-value">{{ area()!.tamanhoHectares }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Bioma</span>
+          <span class="detail-value">{{ area()!.biomaPredominante }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Tipo</span>
+          <span class="detail-value">{{ area()!.tipoFloresta }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <h3 class="section-title">Nova Alocação</h3>
+      <form [formGroup]="form" class="edit-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="label" for="colaborador">Colaborador <span class="required">*</span></label>
+            <select id="colaborador" class="input-field" formControlName="idColaborador">
+              <option value="" disabled selected>Selecione um colaborador</option>
+              @for (col of colaboradoresOptions(); track col.id) {
+                <option [value]="col.id">{{ col.nome }}</option>
+              }
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="label" for="dataInicio">Data de Início <span class="required">*</span></label>
+            <input id="dataInicio" type="date" class="input-field" formControlName="dataInicio" />
+          </div>
+        </div>
+        <div class="actions-row">
+          <button class="btn-primary btn-sm" type="button" (click)="criarAlocacao()" [disabled]="form.invalid || alocacaoSubmitting()">
+            <i class="material-icons" style="font-size: 16px;">add</i>
+            Alocar
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="table-card">
+      <div class="table-toolbar">
+        <span class="table-count">{{ area()!.alocacoes.length }} alocação(ões)</span>
+      </div>
+
+      @if (area()!.alocacoes.length === 0) {
+        <div class="empty-state">
+          <i class="nav-icon material-icons empty-icon" style="color: #d1d5db;">search_off</i>
+          <p class="empty-title">Nenhuma alocação</p>
+          <p class="empty-desc">As alocações aparecerão aqui.</p>
+        </div>
+      } @else {
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Colaborador</th>
+                <th>Início</th>
+                <th>Fim <span class="required">*</span></th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (al of area()!.alocacoes; track al.id) {
+                <tr>
+                  <td>{{ al.nomeColaborador }}<div class="muted">{{ al.idColaborador }}</div></td>
+                  <td>{{ al.dataInicio | date: 'dd/MM/yyyy' }}</td>
+                  <td>
+                    @if (al.dataFim) {
+                      {{ al.dataFim | date: 'dd/MM/yyyy' }}
+                    } @else {
+                      <input class="input-field input-sm" type="date" (input)="dataFimMap[al.id] = $any($event.target).value"/>
+                    }
+                  </td>
+                  <td>
+                    @if (!al.dataFim) {
+                      <button class="btn-secondary btn-sm" type="button" (click)="encerrarAlocacao(al.id, dataFimMap[al.id])" [disabled]="alocacaoSubmitting()">
+                        <i class="material-icons" style="font-size: 16px;">stop_circle</i>
+                        Encerrar
+                      </button>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  }
+</div>
+

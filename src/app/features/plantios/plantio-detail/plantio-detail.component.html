@@ -1,0 +1,65 @@
+<div class="page animate-fade-in-up">
+    <app-page-header title="Detalhes do Plantio" subtitle="Visualize os dados do plantio">
+        <button page-actions class="btn-secondary btn-sm" (click)="goBack()">
+            <i class="material-icons" style="font-size: 16px;">arrow_back</i>
+            Voltar
+        </button>
+    </app-page-header>
+
+    @if (isLoading()) {
+    <div class="loading-wrapper">
+        <app-spinner [size]="40" message="Carregando plantio..." />
+    </div>
+    } @else if (error()) {
+    <app-error-card [message]="error()!" (retry)="load()" />
+    } @else if (plantio()) {
+    <div class="form-card">
+        <div class="details-grid">
+            <div class="detail-item">
+                <span class="detail-label">Data e Hora</span>
+                <span class="detail-value">{{ plantio()!.dataHora | date: 'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Área Florestal</span>
+                <span class="detail-value">{{ plantio()!.nomeAreaFlorestal }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Espécie</span>
+                <span class="detail-value">{{ plantio()!.nomeEspecie }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Quantidade de Mudas</span>
+                <span class="detail-value">{{ plantio()!.quantidadeMudas }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Latitude do Talhão</span>
+                <span class="detail-value">{{ plantio()!.latitudeTalhao }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Longitude do Talhão</span>
+                <span class="detail-value">{{ plantio()!.longitudeTalhao }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Temperatura</span>
+                <span class="detail-value">{{ plantio()!.temperatura }} °C</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Umidade</span>
+                <span class="detail-value">{{ plantio()!.umidade }}%</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Chuva</span>
+                <span class="detail-value">{{ plantio()!.chuva ? 'Sim' : 'Não' }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Método de Plantio</span>
+                <span class="detail-value">{{ plantio()!.metodoPlantio }}</span>
+            </div>
+        </div>
+        <div class="detail-desc">
+            <span class="detail-label">Observações</span>
+            <span class="detail-value">{{ plantio()!.observacoes || '-' }}</span>
+        </div>
+    </div>
+    }
+</div>

@@ -1,0 +1,86 @@
+<div class="page animate-fade-in-up">
+  <app-page-header
+    [title]="isEditMode() ? 'Editar Área Florestal' : 'Cadastro de Área Florestal'"
+    [subtitle]="isEditMode() ? 'Atualize os dados da área' : 'Preencha os dados para cadastrar uma nova área'"
+  >
+    <button page-actions class="btn-secondary btn-sm" (click)="goBack()">
+      <i class="material-icons" style="font-size: 16px;">arrow_back</i>
+      Voltar
+    </button>
+    <button page-actions class="btn-primary btn-sm" (click)="submit()" [disabled]="form.invalid || isSubmitting()">
+      <i class="material-icons" style="font-size: 16px;">{{ isEditMode() ? 'update' : 'save' }}</i>
+      {{ isEditMode() ? 'Atualizar' : 'Salvar' }}
+    </button>
+  </app-page-header>
+
+  <div class="form-card">
+    <form [formGroup]="form" (ngSubmit)="submit()" class="edit-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label" for="nome">Nome <span class="required">*</span></label>
+          <input id="nome" type="text" class="input-field" formControlName="nome" />
+        </div>
+        <div class="form-group">
+          <label class="label" for="status">Status <span class="required">*</span></label>
+          <select id="status" class="input-field select-field" formControlName="status">
+            @for (s of statusOptions; track s) {
+              <option [value]="s">{{ s }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label" for="municipio">Município <span class="required">*</span></label>
+          <input id="municipio" type="text" class="input-field" formControlName="municipio" />
+        </div>
+        <div class="form-group">
+          <label class="label" for="estado">Estado (UF) <span class="required">*</span></label>
+          <input id="estado" type="text" class="input-field" formControlName="estado" maxlength="2" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label" for="tamanhoHectares">Tamanho (hectares) <span class="required">*</span></label>
+          <input id="tamanhoHectares" type="number" class="input-field" formControlName="tamanhoHectares" />
+        </div>
+        <div class="form-group">
+          <label class="label" for="tipoFloresta">Tipo de Floresta <span class="required">*</span></label>
+          <select id="tipoFloresta" class="input-field select-field" formControlName="tipoFloresta">
+            <option value="" disabled>Selecione uma opção</option>
+            @for (t of tipoFlorestaOptions; track t) {
+              <option [value]="t">{{ t }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label" for="bioma">Bioma Predominante <span class="required">*</span></label>
+          <select id="bioma" class="input-field select-field" formControlName="biomaPredominante">
+            <option value="" disabled>Selecione uma opção</option>
+            @for (b of biomaOptions; track b) {
+              <option [value]="b">{{ b }}</option>
+            }
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="label" for="latitude">Latitude <span class="required">*</span></label>
+          <input id="latitude" type="number" class="input-field" formControlName="latitude" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label" for="longitude">Longitude <span class="required">*</span></label>
+          <input id="longitude" type="number" class="input-field" formControlName="longitude" />
+        </div>
+        <div class="form-group"></div>
+      </div>
+    </form>
+  </div>
+</div>
+

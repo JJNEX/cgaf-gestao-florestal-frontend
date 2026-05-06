@@ -1,0 +1,46 @@
+<div class="page animate-fade-in-up">
+  <app-page-header title="Relatório por Bioma" subtitle="Totais de áreas e hectares por bioma">
+    <button page-actions class="btn-secondary btn-sm" (click)="goBack()">
+      <i class="material-icons" style="font-size: 16px;">arrow_back</i>
+      Voltar
+    </button>
+  </app-page-header>
+
+  <div class="table-card">
+    @if (isLoading()) {
+      <div class="loading-wrapper">
+        <app-spinner [size]="40" message="Carregando relatório..." />
+      </div>
+    } @else if (error()) {
+      <app-error-card [message]="error()!" (retry)="load()" />
+    } @else if (items().length === 0) {
+      <div class="empty-state">
+        <i class="nav-icon material-icons empty-icon" style="color: #d1d5db;">search_off</i>
+        <p class="empty-title">Sem dados</p>
+        <p class="empty-desc">Não há registros para exibir.</p>
+      </div>
+    } @else {
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Bioma</th>
+              <th>Total de Áreas</th>
+              <th>Total de Hectares</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (i of items(); track i.bioma) {
+              <tr>
+                <td>{{ i.bioma }}</td>
+                <td>{{ i.totalAreas }}</td>
+                <td>{{ i.totalHectares }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>
+

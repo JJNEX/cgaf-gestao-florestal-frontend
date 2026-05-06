@@ -1,0 +1,11 @@
+<div class="page-header">
+  <div class="header-title-wrapper">
+    <div class="title-with-button">
+      <h1 class="page-title">{{ title() }}</h1>
+      <ng-content select="[page-actions]"></ng-content>
+    </div>
+    @if (subtitle()) {
+      <p class="page-subtitle">{{ subtitle() }}</p>
+    }
+  </div>
+</div>

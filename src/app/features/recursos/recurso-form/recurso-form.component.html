@@ -1,0 +1,79 @@
+<div class="page animate-fade-in-up">
+  <app-page-header
+    [title]="isEditMode() ? 'Editar Recurso' : 'Cadastro de Recurso'"
+    [subtitle]="isEditMode() ? 'Atualize os dados do recurso' : 'Preencha os dados para cadastrar um novo recurso'"
+  >
+    <button page-actions class="btn-secondary btn-sm" (click)="goBack()">
+      <i class="material-icons" style="font-size: 16px;">arrow_back</i>
+      Voltar
+    </button>
+    <button page-actions class="btn-primary btn-sm" (click)="submit()" [disabled]="form.invalid || isSubmitting()">
+      <i class="material-icons" style="font-size: 16px;">{{ isEditMode() ? 'update' : 'save' }}</i>
+      {{ isEditMode() ? 'Atualizar' : 'Salvar' }}
+    </button>
+  </app-page-header>
+
+  <div class="form-card">
+    <form [formGroup]="form" (ngSubmit)="submit()" class="edit-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label" for="codigo">Código Patrimonial <span class="required">*</span></label>
+          <input id="codigo" type="text" class="input-field" formControlName="codigoPatrimonial" />
+        </div>
+        <div class="form-group">
+          <label class="label" for="categoria">Categoria <span class="required">*</span></label>
+          <select id="categoria" class="input-field select-field" formControlName="categoria">
+            <option value="" disabled>Selecione uma categoria</option>
+            @for (c of categoriaOptions; track c) {
+              <option [value]="c">{{ c }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="descricao">Descrição <span class="required">*</span></label>
+        <input id="descricao" type="text" class="input-field" formControlName="descricao" />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label" for="quantidade">Quantidade em Estoque <span class="required">*</span></label>
+          <input id="quantidade" type="number" class="input-field" formControlName="quantidadeEstoque" />
+        </div>
+        <div class="form-group">
+          <label class="label" for="minimo">Estoque Mínimo <span class="required">*</span></label>
+          <input id="minimo" type="number" class="input-field" formControlName="estoqueMinimo" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label" for="unidade">Unidade de Medida <span class="required">*</span></label>
+          <input id="unidade" type="text" class="input-field" formControlName="unidadeMedida" />
+        </div>
+        <div class="form-group">
+          <label class="label" for="localizacao">Localização Atual <span class="required">*</span></label>
+          <input id="localizacao" type="text" class="input-field" formControlName="localizacaoAtual" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label" for="dataAquisicao">Data de Aquisição <span class="required">*</span></label>
+          <input id="dataAquisicao" type="date" class="input-field" formControlName="dataAquisicao" />
+        </div>
+        <div class="form-group">
+          <label class="label" for="vidaUtil">Vida Útil Estimada (anos) <span class="required">*</span></label>
+          <input id="vidaUtil" type="number" class="input-field" formControlName="vidaUtilEstimada" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="responsavel">Responsável pela Guarda <span class="required">*</span></label>
+        <input id="responsavel" type="text" class="input-field" formControlName="responsavelGuarda" />
+      </div>
+    </form>
+  </div>
+</div>
+

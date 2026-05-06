@@ -1,0 +1,28 @@
+.colaborador-layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg-body);
+}
+
+.colaborador-main {
+  flex: 1;
+  margin-left: 240px;
+  transition: margin-left 250ms ease;
+  min-width: 0;
+}
+
+.main-collapsed {
+  margin-left: 64px;
+}
+
+.colaborador-content {
+  padding: 1.5rem;
+  min-height: calc(100vh - 60px);
+}
+
+@media (max-width: 768px) {
+  .colaborador-main {
+    margin-left: 0 !important;
+  }
+}
+

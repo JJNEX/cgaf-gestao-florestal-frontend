@@ -1,0 +1,85 @@
+<div class="page animate-fade-in-up">
+  <app-page-header title="Detalhes do Colaborador" subtitle="Visualize os dados do colaborador">
+    <button page-actions class="btn-secondary btn-sm" (click)="goBack()">
+      <i class="material-icons" style="font-size: 16px;">arrow_back</i>
+      Voltar
+    </button>
+    @if (colaborador()) {
+      <button page-actions class="btn-primary btn-sm" [routerLink]="['/admin/colaboradores', colaborador()!.id, 'editar']">
+        <i class="material-icons" style="font-size: 16px;">edit</i>
+        Editar
+      </button>
+    }
+  </app-page-header>
+
+  @if (isLoading()) {
+    <div class="loading-wrapper">
+      <app-spinner [size]="40" message="Carregando colaborador..." />
+    </div>
+  } @else if (error()) {
+    <app-error-card [message]="error()!" (retry)="load()" />
+  } @else if (colaborador()) {
+    <div class="form-card">
+      <div class="details-grid">
+        <div class="detail-item">
+          <span class="detail-label">Nome</span>
+          <span class="detail-value">{{ colaborador()!.nome }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">E-mail</span>
+          <span class="detail-value">{{ colaborador()!.email }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Status</span>
+          <span class="detail-value">{{ colaborador()!.ativo ? 'Ativo' : 'Inativo' }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">CPF</span>
+          <span class="detail-value">{{ colaborador()!.cpf }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Matrícula</span>
+          <span class="detail-value">{{ colaborador()!.matricula }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Função</span>
+          <span class="detail-value">{{ colaborador()!.funcao }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Área de Atuação</span>
+          <span class="detail-value">{{ colaborador()!.areaAtuacao }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Data de Admissão</span>
+          <span class="detail-value">{{ colaborador()!.dataAdmissao }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Contato de Emergência</span>
+          <span class="detail-value">{{ colaborador()!.contatoEmergencia }}</span>
+        </div>
+      </div>
+      <div class="detail-desc">
+        <span class="detail-label">Qualificações</span>
+        <span class="detail-value">{{ colaborador()!.qualificacoes || '-' }}</span>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="meta-grid">
+        <div class="detail-item">
+          <span class="detail-label">Criado em</span>
+          <span class="detail-value">{{ colaborador()!.dataCriacao }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Atualizado em</span>
+          <span class="detail-value">{{ colaborador()!.dataAtualizacao }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">ID</span>
+          <span class="detail-value">{{ colaborador()!.id }}</span>
+        </div>
+      </div>
+    </div>
+  }
+</div>
+

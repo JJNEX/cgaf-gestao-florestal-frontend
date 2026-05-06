@@ -1,0 +1,36 @@
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+}
+
+.quick-actions a {
+  text-decoration: none;
+}
+
+.account-box {
+  padding: 1rem 1.25rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.account-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.account-value {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-title);
+}
+
+@media (max-width: 640px) {
+  .account-box {
+    grid-template-columns: 1fr;
+  }
+}
+

@@ -1,0 +1,23 @@
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg-body);
+}
+
+.admin-main {
+  flex: 1;
+  margin-left: 240px;
+  transition: margin-left 250ms ease;
+  min-width: 0;
+}
+
+.main-collapsed { margin-left: 64px; }
+
+.admin-content {
+  padding: 1.5rem;
+  min-height: calc(100vh - 60px);
+}
+
+@media (max-width: 768px) {
+  .admin-main { margin-left: 0 !important; }
+}

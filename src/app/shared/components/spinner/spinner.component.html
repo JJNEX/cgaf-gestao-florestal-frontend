@@ -1,0 +1,17 @@
+<div class="spinner-wrapper" [class.spinner-overlay]="overlay()">
+  <div class="spinner" [style.width.px]="size()" [style.height.px]="size()">
+    <svg viewBox="0 0 50 50" class="spinner-svg">
+      <circle
+        cx="25" cy="25" r="20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="4"
+        stroke-linecap="round"
+        class="spinner-circle"
+      />
+    </svg>
+  </div>
+  @if (message()) {
+    <p class="spinner-message">{{ message() }}</p>
+  }
+</div>

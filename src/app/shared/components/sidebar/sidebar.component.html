@@ -1,0 +1,57 @@
+<aside
+  class="sidebar"
+  [class.sidebar-collapsed]="collapsed()"
+  [class.sidebar-mobile-open]="mobileOpen()"
+>
+  @if (mobileOpen()) {
+    <div class="sidebar-overlay" (click)="closeMobile()"></div>
+  }
+
+  <div class="sidebar-inner">
+    <div class="sidebar-header">
+      <a [routerLink]="homeRoute()" class="sidebar-logo">
+        <div class="logo-icon">
+          <i class="material-icons">park</i>
+        </div>
+        @if (!collapsed()) {
+          <span class="logo-text">{{ brandText() }}</span>
+        }
+      </a>
+
+      <button class="collapse-btn" (click)="toggleCollapse()" aria-label="Alternar menu">
+        <i class="material-icons">
+          @if (collapsed()) {
+            chevron_right
+          } @else {
+            chevron_left
+          }
+        </i>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      @for (item of navItems(); track item.route) {
+        <a
+          class="nav-item"
+          [routerLink]="item.route"
+          routerLinkActive="nav-item-active"
+          [routerLinkActiveOptions]="{ exact: item.route === homeRoute() }"
+          (click)="closeMobile()"
+          [title]="item.label"
+        >
+          <i class="nav-icon material-icons">{{ item.icon }}</i>
+          @if (!collapsed()) {
+            <span class="nav-text">{{ item.label }}</span>
+          }
+        </a>
+      }
+    </nav>
+
+    @if (!collapsed()) {
+      <div class="sidebar-footer">
+        <span>{{ footerText() }}</span>
+      </div>
+    }
+  </div>
+</aside>
+

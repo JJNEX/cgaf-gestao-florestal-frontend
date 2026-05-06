@@ -1,0 +1,17 @@
+<div class="admin-layout">
+  <app-sidebar
+    #sidebar
+    [homeRoute]="'/admin/dashboard'"
+    [brandText]="'CGAF'"
+    [footerText]="'Gestão Florestal v1.0'"
+    [navItems]="navItems"
+    (sidebarToggled)="onSidebarToggle($event)"
+  />
+
+  <div class="admin-main" [class.main-collapsed]="sidebarCollapsed()">
+    <app-topbar (menuToggle)="sidebar.openMobile()" />
+    <main class="admin-content animate-fade-in">
+      <router-outlet />
+    </main>
+  </div>
+</div>

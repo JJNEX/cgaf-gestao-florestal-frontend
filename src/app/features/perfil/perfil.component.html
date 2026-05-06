@@ -1,0 +1,30 @@
+<div class="page animate-fade-in-up">
+  <app-page-header title="Meu Perfil" subtitle="Informações da sua conta">
+    <button page-actions class="btn-secondary btn-sm" (click)="goBack()">
+      <i class="material-icons" style="font-size: 16px;">arrow_back</i>
+      Voltar
+    </button>
+  </app-page-header>
+
+  <div class="form-card">
+    <div class="profile-grid">
+      <div class="profile-item">
+        <span class="profile-label">E-mail</span>
+        <span class="profile-value">{{ authService.currentUser()?.email }}</span>
+      </div>
+      <div class="profile-item">
+        <span class="profile-label">Perfil</span>
+        <span class="profile-value">{{ authService.currentUser()?.perfil }}</span>
+      </div>
+      <div class="profile-item">
+        <span class="profile-label">Último Login</span>
+        <span class="profile-value">{{ authService.currentUser()?.ultimoLogin | date: 'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+      <div class="profile-item">
+        <span class="profile-label">ID</span>
+        <span class="profile-value">{{ authService.currentUser()?.id }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+

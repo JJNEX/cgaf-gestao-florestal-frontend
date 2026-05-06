@@ -1,0 +1,78 @@
+<div class="page animate-fade-in-up">
+  <app-page-header title="Detalhes da Ocorrência" subtitle="Informações do protocolo">
+    <button page-actions class="btn-secondary btn-sm" (click)="goBack()">
+      <i class="material-icons" style="font-size: 16px;">arrow_back</i>
+      Voltar
+    </button>
+  </app-page-header>
+
+  @if (isLoading()) {
+    <div class="loading-wrapper">
+      <app-spinner [size]="40" message="Carregando detalhes..." />
+    </div>
+  } @else if (error()) {
+    <app-error-card [message]="error()!" (retry)="load()" />
+  } @else if (ocorrencia()) {
+    <div class="form-card">
+      <div class="details-grid">
+        <div class="detail-item">
+          <span class="detail-label">Protocolo</span>
+          <span class="detail-value">{{ ocorrencia()!.protocolo }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Tipo</span>
+          <span class="detail-value">{{ ocorrencia()!.tipo }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Urgência</span>
+          <span class="detail-value">{{ ocorrencia()!.urgencia }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Área</span>
+          <span class="detail-value">{{ ocorrencia()!.nomeAreaFlorestal }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Colaborador</span>
+          <span class="detail-value">{{ ocorrencia()!.nomeColaborador }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Data</span>
+          <span class="detail-value">{{ ocorrencia()!.dataOcorrencia | date:'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Latitude</span>
+          <span class="detail-value">{{ ocorrencia()!.latitude }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Longitude</span>
+          <span class="detail-value">{{ ocorrencia()!.longitude }}</span>
+        </div>
+      </div>
+      <div class="detail-desc">
+        <span class="detail-label">Descrição</span>
+        <span class="detail-value">{{ ocorrencia()!.descricao }}</span>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <div class="table-toolbar">
+        <span class="table-count">{{ fotosRenderizadas.length }} foto(s)</span>
+      </div>
+
+      @if (fotosRenderizadas.length === 0) {
+        <div class="empty-state">
+          <i class="nav-icon material-icons empty-icon" style="color: #d1d5db;">image_not_supported</i>
+          <p class="empty-title">Sem fotos</p>
+          <p class="empty-desc">Nenhuma foto foi informada.</p>
+        </div>
+      } @else {
+        <div class="photos">
+          @for (f of fotosRenderizadas; track f) {
+            <img [src]="f" alt="Foto da ocorrência" class="photo" />
+          }
+        </div>
+      }
+    </div>
+  }
+</div>
+

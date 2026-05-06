@@ -1,0 +1,100 @@
+<div class="page animate-fade-in-up">
+  <app-page-header title="Colaboradores" subtitle="Gerencie todos os colaboradores do sistema">
+    <button page-actions class="btn-primary btn-sm" routerLink="/admin/colaboradores/novo">
+      <i class="material-icons" style="font-size: 16px;">add</i>
+      Cadastrar
+    </button>
+  </app-page-header>
+
+  @if (colaboradorService.isLoading()) {
+    <div class="loading-wrapper">
+      <app-spinner [size]="40" message="Carregando colaboradores..." />
+    </div>
+  }
+
+  @if (colaboradorService.error()) {
+    <app-error-card [message]="colaboradorService.error() || 'Erro desconhecido'" (retry)="loadColaboradores()">
+    </app-error-card>
+  }
+
+  @if (!colaboradorService.isLoading() && !colaboradorService.error()) {
+    <div class="table-card">
+      <div class="table-toolbar">
+        <span class="table-count">
+          @if (colaboradorService.page()) {
+            {{ colaboradorService.page()!.totalElements }} registros
+          } @else {
+            {{ colaboradorService.colaboradores().length }} registros
+          }
+        </span>
+      </div>
+
+      @if (colaboradorService.colaboradores().length === 0) {
+        <div class="empty-state">
+          <i class="nav-icon material-icons empty-icon" style="color: #d1d5db;">search_off</i>
+          <p class="empty-title">Nenhum colaborador encontrado</p>
+          <p class="empty-desc">Os colaboradores cadastrados aparecerão aqui.</p>
+        </div>
+      } @else {
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Matrícula</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (col of colaboradorService.colaboradores(); track col.id) {
+                <tr>
+                  <td>{{ col.nome }}</td>
+                  <td>{{ col.email }}</td>
+                  <td>{{ col.matricula }}</td>
+                  <td>{{ col.ativo ? 'Ativo' : 'Inativo' }}</td>
+                  <td>
+                    <div class="actions-container">
+                      <button
+                        class="action-btn"
+                        title="Visualizar"
+                        aria-label="Visualizar"
+                        [routerLink]="['/admin/colaboradores', col.id]"
+                      >
+                        <i class="nav-icon material-icons">visibility</i>
+                      </button>
+                      <button
+                        class="action-btn"
+                        title="Editar"
+                        aria-label="Editar"
+                        [routerLink]="['/admin/colaboradores', col.id, 'editar']"
+                      >
+                        <i class="nav-icon material-icons">edit</i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pagination">
+          <button class="btn-secondary btn-sm" (click)="prevPage()" [disabled]="colaboradorService.page()?.first">
+            <i class="material-icons" style="font-size: 16px;">chevron_left</i>
+            Anterior
+          </button>
+          <span class="page-info">
+            Página {{ (colaboradorService.page()?.number ?? 0) + 1 }} de {{ colaboradorService.page()?.totalPages ?? 1 }}
+          </span>
+          <button class="btn-secondary btn-sm" (click)="nextPage()" [disabled]="colaboradorService.page()?.last">
+            Próxima
+            <i class="material-icons" style="font-size: 16px;">chevron_right</i>
+          </button>
+        </div>
+      }
+    </div>
+  }
+</div>
+

@@ -1,0 +1,15 @@
+.page-header {
+  margin-bottom: 1.5rem;
+}
+
+.header-title-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.title-with-button {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}

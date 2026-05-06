@@ -1,0 +1,36 @@
+<header class="topbar">
+  <div class="topbar-left">
+    <button class="mobile-menu-btn" (click)="menuToggle.emit()" aria-label="Abrir menu">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="20" height="20">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+      </svg>
+    </button>
+    <span class="breadcrumb">Sistema de Gestão Florestal</span>
+  </div>
+
+  <div class="topbar-right">
+    <button class="theme-toggle-btn" (click)="toggleTheme()" aria-label="Alternar tema">
+      <i class="material-icons">{{ themeService.isDarkMode() ? 'light_mode' : 'dark_mode' }}</i>
+    </button>
+    <div class="user-profile" (click)="toggleDropdown($event)">
+      <div class="user-avatar">
+        <i class="nav-icon material-icons">person</i>
+      </div>
+      <div class="user-info">
+        <span class="user-name">{{ authService.currentUser()?.email || 'Usuário' }}</span>
+        <!-- <span class="user-role">{{ authService.currentUser()?.perfil || 'admin' }}</span> -->
+      </div>
+
+      @if (isDropdownOpen) {
+        <div class="dropdown-menu" (click)="$event.stopPropagation()">
+          <a [routerLink]="profileRoute" class="dropdown-item" (click)="closeDropdown()">
+            <i class="material-icons">account_circle</i> Meu Perfil
+          </a>
+          <button class="dropdown-item text-danger" (click)="logout()">
+            <i class="material-icons">logout</i> Sair do Sistema
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</header>

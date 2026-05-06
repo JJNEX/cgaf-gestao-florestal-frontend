@@ -1,0 +1,111 @@
+<div class="page animate-fade-in-up">
+  <app-page-header title="Áreas Florestais" subtitle="Gerencie áreas e alocações">
+    <button page-actions class="btn-primary btn-sm" routerLink="/admin/area-florestal/nova">
+      <i class="material-icons" style="font-size: 16px;">add</i>
+      Cadastrar
+    </button>
+  </app-page-header>
+
+  <div class="table-card">
+    <div class="table-toolbar">
+      <!-- <div class="filters">
+        <div class="form-group" style="margin: 0;">
+          <label class="label" for="status">Status</label>
+          <input
+            id="status"
+            class="input-field"
+            type="text"
+            placeholder="Ex: ATIVA"
+            [value]="statusFilter()"
+            (input)="onStatusInput($event)"
+          />
+        </div>
+        <button class="btn-secondary btn-sm" (click)="applyFilter()">
+          <i class="material-icons" style="font-size: 16px;">filter_alt</i>
+          Filtrar
+        </button>
+      </div> -->
+      <div class="table-count">
+        @if (service.page()) {
+          {{ service.page()!.totalElements }} registros
+        }
+      </div>
+    </div>
+
+    @if (service.isLoading()) {
+      <div class="loading-wrapper">
+        <app-spinner [size]="40" message="Carregando áreas..." />
+      </div>
+    } @else if (service.error()) {
+      <app-error-card [message]="service.error()!" (retry)="load()" />
+    } @else if (service.areas().length === 0) {
+      <div class="empty-state">
+        <i class="nav-icon material-icons empty-icon" style="color: #d1d5db;">search_off</i>
+        <p class="empty-title">Nenhuma área encontrada</p>
+        <p class="empty-desc">As áreas cadastradas aparecerão aqui.</p>
+      </div>
+    } @else {
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Município/UF</th>
+              <th>Hectares</th>
+              <th>Bioma</th>
+              <th>Tipo</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (a of service.areas(); track a.id) {
+              <tr>
+                <td>{{ a.nome }}</td>
+                <td>{{ a.municipio }} / {{ a.estado }}</td>
+                <td>{{ a.tamanhoHectares }}</td>
+                <td>{{ a.biomaPredominante }}</td>
+                <td>{{ a.tipoFloresta }}</td>
+                <td>{{ a.status }}</td>
+                <td>
+                  <div class="actions-container">
+                    <button
+                      class="action-btn"
+                      title="Detalhes"
+                      aria-label="Detalhes"
+                      [routerLink]="['/admin/area-florestal', a.id]"
+                    >
+                      <i class="nav-icon material-icons">visibility</i>
+                    </button>
+                    <button
+                      class="action-btn"
+                      title="Editar"
+                      aria-label="Editar"
+                      [routerLink]="['/admin/area-florestal', a.id, 'editar']"
+                    >
+                      <i class="nav-icon material-icons">edit</i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination">
+        <button class="btn-secondary btn-sm" (click)="prevPage()" [disabled]="service.page()?.first">
+          <i class="material-icons" style="font-size: 16px;">chevron_left</i>
+          Anterior
+        </button>
+        <span class="page-info">
+          Página {{ (service.page()?.number ?? 0) + 1 }} de {{ service.page()?.totalPages ?? 1 }}
+        </span>
+        <button class="btn-secondary btn-sm" (click)="nextPage()" [disabled]="service.page()?.last">
+          Próxima
+          <i class="material-icons" style="font-size: 16px;">chevron_right</i>
+        </button>
+      </div>
+    }
+  </div>
+</div>

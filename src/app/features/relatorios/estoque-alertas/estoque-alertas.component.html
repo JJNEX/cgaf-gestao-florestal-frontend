@@ -1,0 +1,52 @@
+<div class="page animate-fade-in-up">
+  <app-page-header title="Alertas de Estoque" subtitle="Recursos abaixo do mínimo recomendado">
+    <button page-actions class="btn-secondary btn-sm" (click)="goBack()">
+      <i class="material-icons" style="font-size: 16px;">arrow_back</i>
+      Voltar
+    </button>
+  </app-page-header>
+
+  <div class="table-card">
+    @if (isLoading()) {
+      <div class="loading-wrapper">
+        <app-spinner [size]="40" message="Carregando relatório..." />
+      </div>
+    } @else if (error()) {
+      <app-error-card [message]="error()!" (retry)="load()" />
+    } @else if (items().length === 0) {
+      <div class="empty-state">
+        <i class="nav-icon material-icons empty-icon" style="color: #d1d5db;">inventory_2</i>
+        <p class="empty-title">Nenhum alerta</p>
+        <p class="empty-desc">Não há recursos com estoque baixo.</p>
+      </div>
+    } @else {
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Descrição</th>
+              <th>Quantidade Atual</th>
+              <th>Mínimo</th>
+              <th>Unidade</th>
+              <th>Responsável</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (i of items(); track i.codigoPatrimonial) {
+              <tr>
+                <td>{{ i.codigoPatrimonial }}</td>
+                <td>{{ i.descricao }}</td>
+                <td>{{ i.quantidadeAtual }}</td>
+                <td>{{ i.estoqueMinimo }}</td>
+                <td>{{ i.unidadeMedida }}</td>
+                <td>{{ i.responsavelGuarda }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>
+

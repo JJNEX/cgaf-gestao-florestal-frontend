@@ -1,0 +1,81 @@
+<div class="page animate-fade-in-up">
+  <app-page-header
+    [title]="isEditMode ? 'Editar Colaborador' : 'Cadastro de Colaborador'"
+    [subtitle]="isEditMode ? 'Atualize os dados do colaborador' : 'Preencha os dados para cadastrar um novo colaborador'">
+    
+    <button page-actions class="btn-secondary btn-sm" (click)="goBack()">
+      <i class="material-icons" style="font-size: 16px;">arrow_back</i>
+      Voltar
+    </button>
+    <button page-actions class="btn-primary btn-sm" (click)="onSubmit()" [disabled]="form.invalid || !form.get('ativo')?.value">
+      <i class="material-icons" style="font-size: 16px;">{{ isEditMode ? 'update' : 'save' }}</i>
+      {{ isEditMode ? 'Atualizar' : 'Salvar' }}
+    </button>
+    @if(isEditMode && form.get('ativo')?.value) {
+      <button page-actions class="btn-primary btn-sm" (click)="inativar()">
+        <i class="material-icons" style="font-size: 16px;">close</i>
+        Inativar
+      </button>
+    }
+  </app-page-header>
+
+  @if(isEditMode && !form.get('ativo')?.value) {
+    <div class="inactive-warning">
+      <i class="material-icons">warning</i>
+      <span>Colaborador inativo.</span>
+    </div>
+  }
+
+  <div class="form-card">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="edit-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="nome" class="label">Nome <span class="required">*</span></label>
+          <input id="nome" type="text" class="input-field" formControlName="nome"/>
+        </div>
+        <div class="form-group">
+          <label for="email" class="label">Email <span class="required">*</span></label>
+          <input id="email" type="email" class="input-field" formControlName="email"/>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="cpf" class="label">CPF <span class="required">*</span></label>
+          <input id="cpf" type="text" class="input-field" formControlName="cpf"/>
+        </div>
+        <div class="form-group">
+          <label for="matricula" class="label">Matrícula <span class="required">*</span></label>
+          <input id="matricula" type="text" class="input-field" formControlName="matricula"/>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="funcao" class="label">Função <span class="required">*</span></label>
+          <input id="funcao" type="text" class="input-field" formControlName="funcao"/>
+        </div>
+        <div class="form-group">
+          <label for="areaAtuacao" class="label">Área de Atuação <span class="required">*</span></label>
+          <input id="areaAtuacao" type="text" class="input-field" formControlName="areaAtuacao"/>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="dataAdmissao" class="label">Data de Admissão <span class="required">*</span></label>
+          <input id="dataAdmissao" type="date" class="input-field" formControlName="dataAdmissao"/>
+        </div>
+        <div class="form-group">
+          <label for="contatoEmergencia" class="label">Contato de Emergência <span class="required">*</span></label>
+          <input id="contatoEmergencia" type="text" class="input-field" formControlName="contatoEmergencia"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="qualificacoes" class="label">Qualificações</label>
+        <textarea id="qualificacoes" class="input-field" formControlName="qualificacoes" rows="4"></textarea>
+      </div>
+    </form>
+  </div>
+</div>

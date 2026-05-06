@@ -1,0 +1,75 @@
+<div class="page animate-fade-in-up">
+  <app-page-header
+    [title]="isEditMode() ? 'Editar Espécie' : 'Cadastro de Espécie'"
+    [subtitle]="isEditMode() ? 'Atualize os dados da espécie' : 'Preencha os dados para cadastrar uma nova espécie'"
+  >
+    <button page-actions class="btn-secondary btn-sm" (click)="goBack()">
+      <i class="material-icons" style="font-size: 16px;">arrow_back</i>
+      Voltar
+    </button>
+    <button page-actions class="btn-primary btn-sm" (click)="submit()" [disabled]="form.invalid || isSubmitting()">
+      <i class="material-icons" style="font-size: 16px;">{{ isEditMode() ? 'update' : 'save' }}</i>
+      {{ isEditMode() ? 'Atualizar' : 'Salvar' }}
+    </button>
+  </app-page-header>
+
+  <div class="form-card">
+    <form [formGroup]="form" (ngSubmit)="submit()" class="edit-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label" for="nomeCientifico">Nome Científico <span class="required">*</span></label>
+          <input id="nomeCientifico" type="text" class="input-field" formControlName="nomeCientifico" />
+        </div>
+        <div class="form-group">
+          <label class="label" for="nomePopular">Nome Popular <span class="required">*</span></label>
+          <input id="nomePopular" type="text" class="input-field" formControlName="nomePopular" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label" for="familia">Família <span class="required">*</span></label>
+          <input id="familia" type="text" class="input-field" formControlName="familia" />
+        </div>
+        <div class="form-group">
+          <label class="label" for="cicloVidaAnos">Ciclo de Vida (anos) <span class="required">*</span></label>
+          <input id="cicloVidaAnos" type="number" class="input-field" formControlName="cicloVidaAnos" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label" for="porte">Porte <span class="required">*</span></label>
+          <select id="porte" class="input-field select-field" formControlName="porte">
+            <option value="" disabled>Selecione uma opção</option>
+            @for (p of porteOptions; track p) {
+              <option [value]="p">{{ p }}</option>
+            }
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="label" for="conservacao">Conservação <span class="required">*</span></label>
+          <select id="conservacao" class="input-field select-field" formControlName="conservacao">
+            <option value="" disabled>Selecione uma opção</option>
+            @for (c of conservacaoOptions; track c) {
+              <option [value]="c">{{ c }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="exigencias">Exigências Climáticas/Solo <span class="required">*</span></label>
+        <textarea id="exigencias" rows="4" class="input-field" formControlName="exigenciasClimaticasSolo"></textarea>
+      </div>
+
+      <div class="checkbox-group">
+        <label class="checkbox-label">
+          <input type="checkbox" formControlName="nativa" />
+          Nativa
+        </label>
+      </div>
+    </form>
+  </div>
+</div>
+

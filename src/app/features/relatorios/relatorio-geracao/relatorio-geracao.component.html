@@ -1,0 +1,60 @@
+<div class="page animate-fade-in-up">
+  <app-page-header title="Seleção de Relatórios" subtitle="Escolha um relatório para visualizar"></app-page-header>
+
+  <div class="stats-grid">
+    <a class="stat-card" (click)="navigateTo('/admin/relatorios/por-bioma')">
+      <div class="stat-icon">
+        <i class="material-icons">public</i>
+      </div>
+      <div class="stat-body">
+        <span class="stat-label">Por Bioma</span>
+        <span class="stat-value">Distribuição de espécies por bioma.</span>
+      </div>
+    </a>
+    <a class="stat-card" (click)="navigateTo('/admin/relatorios/especies/fichas-tecnicas')">
+      <div class="stat-icon">
+        <i class="material-icons">description</i>
+      </div>
+      <div class="stat-body">
+        <span class="stat-label">Fichas Técnicas</span>
+        <span class="stat-value">Fichas técnicas detalhadas das espécies.</span>
+      </div>
+    </a>
+    <a class="stat-card" (click)="navigateTo('/admin/relatorios/estoque/alertas')">
+      <div class="stat-icon">
+        <i class="material-icons">warning</i>
+      </div>
+      <div class="stat-body">
+        <span class="stat-label">Alertas de Estoque</span>
+        <span class="stat-value">Alertas de estoque de sementes e mudas.</span>
+      </div>
+    </a>
+    <a class="stat-card" (click)="navigateTo('/admin/relatorios/estoque/previsao')">
+      <div class="stat-icon">
+        <i class="material-icons">inventory</i>
+      </div>
+      <div class="stat-body">
+        <span class="stat-label">Previsão de Estoque</span>
+        <span class="stat-value">Previsão de estoque futuro.</span>
+      </div>
+    </a>
+    <a class="stat-card" (click)="navigateTo('/admin/relatorios/produtividade')">
+      <div class="stat-icon">
+        <i class="material-icons">trending_up</i>
+      </div>
+      <div class="stat-body">
+        <span class="stat-label">Produtividade</span>
+        <span class="stat-value">Produtividade das áreas de plantio.</span>
+      </div>
+    </a>
+    <a class="stat-card" (click)="navigateTo('/admin/relatorios/alertas/criticos')">
+      <div class="stat-icon">
+        <i class="material-icons">error</i>
+      </div>
+      <div class="stat-body">
+        <span class="stat-label">Alertas Críticos</span>
+        <span class="stat-value">Alertas críticos e ocorrências.</span>
+      </div>
+    </a>
+  </div>
+</div>

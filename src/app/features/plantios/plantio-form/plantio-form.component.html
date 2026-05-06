@@ -1,0 +1,97 @@
+<div class="page animate-fade-in-up">
+  <app-page-header title="Novo Plantio" subtitle="Registre um plantio em campo">
+    <button page-actions class="btn-secondary btn-sm" (click)="goBack()">
+      <i class="material-icons" style="font-size: 16px;">arrow_back</i>
+      Voltar
+    </button>
+    <button page-actions class="btn-primary btn-sm" (click)="submit()" [disabled]="form.invalid || isSubmitting()">
+      <i class="material-icons" style="font-size: 16px;">save</i>
+      Salvar
+    </button>
+  </app-page-header>
+
+  <div class="form-card">
+    <form [formGroup]="form" (ngSubmit)="submit()" class="edit-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label" for="dataHora">Data/Hora <span class="required">*</span></label>
+          <input id="dataHora" type="datetime-local" class="input-field" formControlName="dataHora" />
+        </div>
+        <div class="form-group">
+          <label class="label" for="quantidadeMudas">Quantidade de Mudas <span class="required">*</span></label>
+          <input id="quantidadeMudas" type="number" class="input-field" formControlName="quantidadeMudas" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label" for="areaFlorestalId">Área Florestal <span class="required">*</span></label>
+          <select id="areaFlorestalId" class="input-field select-field" formControlName="areaFlorestalId">
+            <option value="" disabled>Selecione</option>
+            @if(isLoadingAreas()) {
+              <option disabled>Carregando áreas florestais...</option>
+            }
+            @for (area of areaFlorestalOptions(); track area) {
+              <option [value]="area.id">{{ area.nome }}</option>
+            }
+          </select>
+        </div>
+  
+        <div class="form-group">
+          <label class="label" for="especieId">Espécie <span class="required">*</span></label>
+          <select id="especieId" class="input-field select-field" formControlName="especieId">
+            <option value="" disabled>Selecione</option>
+            @if(isLoadingEspecies()) {
+              <option disabled>Carregando espécies...</option>
+            }
+            @for (especie of especieOptions(); track especie) {
+              <option [value]="especie.id">{{ especie.nome }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label" for="latitudeTalhao">Latitude do Talhão <span class="required">*</span></label>
+          <input id="latitudeTalhao" type="number" class="input-field" formControlName="latitudeTalhao" />
+        </div>
+        <div class="form-group">
+          <label class="label" for="longitudeTalhao">Longitude do Talhão <span class="required">*</span></label>
+          <input id="longitudeTalhao" type="number" class="input-field" formControlName="longitudeTalhao" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label" for="temperatura">Temperatura <span class="required">*</span></label>
+          <input id="temperatura" type="number" class="input-field" formControlName="temperatura" />
+        </div>
+        <div class="form-group">
+          <label class="label" for="umidade">Umidade <span class="required">*</span></label>
+          <input id="umidade" type="number" class="input-field" formControlName="umidade" />
+        </div>
+      </div>
+
+      
+      <div class="form-row">
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="chuva" />
+            Chuva
+          </label>
+        </div>
+        <div class="form-group">
+          <label class="label" for="metodoPlantio">Método de Plantio <span class="required">*</span></label>
+          <input id="metodoPlantio" type="text" class="input-field" formControlName="metodoPlantio" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="observacoes">Observações</label>
+        <textarea id="observacoes" rows="4" class="input-field" formControlName="observacoes"></textarea>
+      </div>
+    </form>
+  </div>
+</div>
+

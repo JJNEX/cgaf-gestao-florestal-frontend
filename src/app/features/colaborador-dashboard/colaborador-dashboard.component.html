@@ -1,0 +1,56 @@
+<div class="page animate-fade-in-up">
+  <app-page-header title="Dashboard" [subtitle]="formattedDate"></app-page-header>
+
+  <div class="stats-grid">
+    @for (card of cards(); track card.title) {
+      <a [routerLink]="card.route" class="stat-card">
+        <div
+          class="stat-icon"
+          [style.color]="card.iconColor"
+          [style.backgroundColor]="card.iconColor + '1A'"
+        >
+          <i class="material-icons">{{ card.icon }}</i>
+        </div>
+        <div class="stat-body">
+          <span class="stat-label">{{ card.title }}</span>
+          @if (card.value) {
+            <span class="stat-value">{{ card.value }}</span>
+          }
+        </div>
+      </a>
+    }
+  </div>
+
+  <div class="dashboard-sections-grid">
+    <app-section-card title="Ações Rápidas">
+      <div class="quick-actions">
+        <a class="btn-primary btn-sm" routerLink="/colaborador/inventario/novo">
+          <i class="material-icons" style="font-size: 16px;">add</i>
+          Novo Inventário
+        </a>
+        <a class="btn-primary btn-sm" routerLink="/colaborador/ocorrencias/nova">
+          <i class="material-icons" style="font-size: 16px;">add</i>
+          Nova Ocorrência
+        </a>
+        <a class="btn-primary btn-sm" routerLink="/colaborador/plantios/novo">
+          <i class="material-icons" style="font-size: 16px;">add</i>
+          Novo Plantio
+        </a>
+      </div>
+    </app-section-card>
+
+    <app-section-card title="Minha Conta">
+      <div class="account-box">
+        <div>
+          <div class="account-label">E-mail</div>
+          <div class="account-value">{{ authService.currentUser()?.email }}</div>
+        </div>
+        <div>
+          <div class="account-label">Último Login</div>
+          <div class="account-value">{{ authService.currentUser()?.ultimoLogin | date: 'dd/MM/yyyy HH:mm' }}</div>
+        </div>
+      </div>
+    </app-section-card>
+  </div>
+</div>
+
